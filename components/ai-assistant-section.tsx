@@ -115,24 +115,52 @@ export function AiAssistantSection() {
     scrollToBottom()
   }, [messages])
 
-  // Simple keyword-based recommendation system
-  const getRecommendations = (userMessage: string): typeof SAMPLE_TOOLS => {
+  // Simple keyword-based recommendation system with scope validation
+  const getRecommendations = (userMessage: string): { tools: typeof SAMPLE_TOOLS; isOutOfScope: boolean } => {
     const message = userMessage.toLowerCase()
     
+    // Define AI-related keywords
+    const aiKeywords = [
+      'ai', 'artificial intelligence', 'machine learning', 'ml', 'automation', 'tool', 'software',
+      'code', 'programming', 'develop', 'build', 'create', 'generate', 'design', 'image', 'art',
+      'visual', 'chat', 'assistant', 'help', 'productivity', 'workflow', 'presentation', 'video',
+      'audio', 'music', 'text', 'writing', 'content', 'analysis', 'data', 'research', 'document',
+      'cybersecurity', 'security', 'academic', 'study', 'learn', 'edit', 'enhance', 'optimize'
+    ]
+    
+    // Check if the message contains any AI-related keywords
+    const hasAiKeywords = aiKeywords.some(keyword => message.includes(keyword))
+    
+    // Check for obviously out-of-scope topics
+    const outOfScopeKeywords = [
+      'weather', 'recipe', 'cooking', 'restaurant', 'food', 'travel', 'vacation', 'hotel',
+      'sports', 'game score', 'news', 'politics', 'celebrity', 'gossip', 'shopping', 'buy',
+      'medical advice', 'health diagnosis', 'legal advice', 'financial advice', 'investment',
+      'personal relationship', 'dating', 'romance', 'joke', 'funny', 'entertainment'
+    ]
+    
+    const hasOutOfScopeKeywords = outOfScopeKeywords.some(keyword => message.includes(keyword))
+    
+    // If it's clearly out of scope or doesn't contain AI-related keywords
+    if (hasOutOfScopeKeywords || (!hasAiKeywords && message.length > 10)) {
+      return { tools: [], isOutOfScope: true }
+    }
+    
+    // AI tool recommendations based on keywords
     if (message.includes("code") || message.includes("programming") || message.includes("develop")) {
-      return SAMPLE_TOOLS.filter(tool => tool.category === "Code Generation")
+      return { tools: SAMPLE_TOOLS.filter(tool => tool.category === "Code Generation"), isOutOfScope: false }
     }
     
     if (message.includes("image") || message.includes("art") || message.includes("design") || message.includes("visual")) {
-      return SAMPLE_TOOLS.filter(tool => tool.category === "Image Generation")
+      return { tools: SAMPLE_TOOLS.filter(tool => tool.category === "Image Generation"), isOutOfScope: false }
     }
     
-    if (message.includes("chat") || message.includes("help") || message.includes("question")) {
-      return SAMPLE_TOOLS.filter(tool => tool.category === "General")
+    if (message.includes("chat") || message.includes("help") || message.includes("question") || message.includes("ai")) {
+      return { tools: SAMPLE_TOOLS.filter(tool => tool.category === "General"), isOutOfScope: false }
     }
     
-    // Default recommendations
-    return SAMPLE_TOOLS.slice(0, 2)
+    // Default recommendations for AI-related queries
+    return { tools: SAMPLE_TOOLS.slice(0, 2), isOutOfScope: false }
   }
 
   const handleSendMessage = async () => {
@@ -151,14 +179,27 @@ export function AiAssistantSection() {
 
     // Simulate AI processing delay
     setTimeout(() => {
-      const recommendations = getRecommendations(inputValue)
+      const result = getRecommendations(inputValue)
       
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        type: "assistant",
-        content: `Based on your request, I found some great tools that can help you. These tools are specifically designed for your use case and are highly rated by our community.`,
-        timestamp: new Date(),
-        recommendations,
+      let assistantMessage: Message
+      
+      if (result.isOutOfScope) {
+        assistantMessage = {
+          id: (Date.now() + 1).toString(),
+          type: "assistant",
+          content: "I'm sorry, but that request is outside of my scope. I'm specifically designed to help you find AI tools and software solutions. Please ask me about AI tools for tasks like coding, image generation, productivity, content creation, or other technology-related needs.",
+          timestamp: new Date(),
+        }
+      } else {
+        assistantMessage = {
+          id: (Date.now() + 1).toString(),
+          type: "assistant",
+          content: result.tools.length > 0 
+            ? "Based on your request, I found some great tools that can help you. These tools are specifically designed for your use case and are highly rated by our community."
+            : "I understand you're looking for AI tools, but I couldn't find specific matches for your request. Here are some popular AI tools that might be helpful:",
+          timestamp: new Date(),
+          recommendations: result.tools.length > 0 ? result.tools : SAMPLE_TOOLS.slice(0, 2),
+        }
       }
 
       setMessages(prev => [...prev, assistantMessage])

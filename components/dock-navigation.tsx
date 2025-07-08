@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { Home, Search, Brain } from "lucide-react"
+import { Home, Search, Plus, Brain } from "lucide-react"
 import "./dock.css"
 
 export type DockItemData = {
@@ -94,6 +94,12 @@ export function DockNavigation({ activeTab, onTabChange }: DockNavigationProps) 
       onClick: () => onTabChange("explore"),
       className: activeTab === "explore" ? "active" : "",
       badge: "New",
+    },
+    {
+      icon: <Plus className="h-5 w-5" />,
+      label: "Suggest A Tool",
+      onClick: () => onTabChange("suggest-tool"),
+      className: activeTab === "suggest-tool" ? "active" : "",
     },
     {
       icon: <Brain className="h-5 w-5" />,

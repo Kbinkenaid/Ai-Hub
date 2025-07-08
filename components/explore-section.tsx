@@ -827,7 +827,7 @@ const cybersecurityTools = [
     tags: ["Threat Intelligence", "Predictive AI", "Zero-day", "APT"],
     rating: 4.6,
     users: "1K+",
-    pricing: "Enterprise",
+    pricing: "Freemium",
     logo: "🐇",
     quickTip: "Integrate with your SIEM for automated threat response.",
     timeToValue: "1 week",
