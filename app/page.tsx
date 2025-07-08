@@ -16,6 +16,7 @@ import { AdminToggle } from "@/components/admin-toggle"
 // Add this import
 import { DockNavigation } from "@/components/dock-navigation"
 import { ExploreSection } from "@/components/explore-section"
+import { AiAssistantSection } from "@/components/ai-assistant-section"
 import { PageLoading } from "@/components/page-loading"
 
 export default function AIInnovationHub() {
@@ -27,7 +28,7 @@ export default function AIInnovationHub() {
 
   useEffect(() => {
     const tab = searchParams.get("tab")
-    if (tab && ["home", "explore"].includes(tab)) {
+    if (tab && ["home", "explore", "ai-assistant"].includes(tab)) {
       setActiveTab(tab)
     }
     setIsLoading(false)
@@ -291,6 +292,12 @@ export default function AIInnovationHub() {
         return (
           <div className="pt-20">
             <ExploreSection />
+          </div>
+        )
+      case "ai-assistant":
+        return (
+          <div className="pt-20">
+            <AiAssistantSection />
           </div>
         )
       default:
