@@ -2,7 +2,6 @@
 
 import { useState } from "react"
 import { Send, CheckCircle, AlertCircle, Plus, Globe, Tag, FileText } from "lucide-react"
-import emailjs from '@emailjs/browser'
 
 interface FormData {
   toolName: string
@@ -89,18 +88,10 @@ export function SuggestToolSection() {
     setErrorMessage("")
 
     try {
-      // EmailJS configuration
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
-      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-
-      // Check if EmailJS is properly configured
-      if (!serviceId || !templateId || !publicKey || 
-          serviceId === 'your_service_id_here' || 
-          templateId === 'your_template_id_here' || 
-          publicKey === 'your_public_key_here') {
-        throw new Error('EmailJS not configured. Please set up your EmailJS credentials in .env.local file.')
-      }
+      // EmailJS configuration - hardcoded for v0.dev
+      const serviceId = 'service_jyzmxbh'
+      const templateId = 'template_k4021lh'
+      const publicKey = 'IT6syLkw1EZFsveA5'
 
       // Prepare email template parameters
       const templateParams = {
@@ -115,8 +106,23 @@ export function SuggestToolSection() {
         reply_to: 'noreply@aihub.com'
       }
 
-      // Send email via EmailJS
-      await emailjs.send(serviceId, templateId, templateParams, publicKey)
+      // Send email via EmailJS using fetch
+      const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          service_id: serviceId,
+          template_id: templateId,
+          user_id: publicKey,
+          template_params: templateParams
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to send email')
+      }
       
       setSubmitStatus("success")
       
