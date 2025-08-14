@@ -1,0 +1,92 @@
+{
+  "tools": [
+    {
+      "id": "claude-ai",
+      "name": "Claude AI",
+      "description": "AI assistant for analysis, research, and creative tasks",
+      "url": "https://claude.ai",
+      "category": "productivity",
+      "tags": [
+        "assistant",
+        "analysis",
+        "writing"
+      ],
+      "featured": true,
+      "addedDate": "2025-01-14",
+      "logo": "/placeholder.svg",
+      "pricing": "freemium"
+    },
+    {
+      "id": "midjourney",
+      "name": "Midjourney",
+      "description": "AI-powered image generation and artistic creation",
+      "url": "https://midjourney.com",
+      "category": "design",
+      "tags": [
+        "image-generation",
+        "art",
+        "creative"
+      ],
+      "featured": true,
+      "addedDate": "2025-01-14",
+      "logo": "/placeholder.svg",
+      "pricing": "paid"
+    },
+    {
+      "id": "github-copilot",
+      "name": "GitHub Copilot",
+      "description": "AI pair programmer that helps you write code faster",
+      "url": "https://github.com/features/copilot",
+      "category": "development",
+      "tags": [
+        "coding",
+        "development",
+        "autocomplete"
+      ],
+      "featured": true,
+      "addedDate": "2025-01-14",
+      "logo": "/placeholder.svg",
+      "pricing": "paid"
+    }
+  ],
+  "categories": [
+    {
+      "id": "productivity",
+      "name": "Productivity",
+      "description": "AI tools to boost your productivity and efficiency",
+      "icon": "⚡"
+    },
+    {
+      "id": "design",
+      "name": "Design",
+      "description": "Creative AI tools for design and visual content",
+      "icon": "🎨"
+    },
+    {
+      "id": "development",
+      "name": "Development",
+      "description": "AI-powered development and coding tools",
+      "icon": "💻"
+    },
+    {
+      "id": "marketing",
+      "name": "Marketing",
+      "description": "AI tools for marketing and business growth",
+      "icon": "📈"
+    },
+    {
+      "id": "writing",
+      "name": "Writing",
+      "description": "AI assistants for writing and content creation",
+      "icon": "✍️"
+    },
+    {
+      "id": "research",
+      "name": "Research",
+      "description": "AI tools for data analysis and research",
+      "icon": "🔬"
+    }
+  ],
+  "lastUpdated": "2025-08-14T21:02:27.823Z",
+  "totalTools": 3
+}
