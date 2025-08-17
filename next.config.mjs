@@ -9,6 +9,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  experimental: {
+    esmExternals: true,
+  },
+  transpilePackages: [],
 }
 
 export default nextConfig
